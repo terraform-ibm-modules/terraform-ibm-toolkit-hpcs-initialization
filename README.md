@@ -30,7 +30,7 @@ Terraform 0.13.
 ```
 `ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
 ``` hcl 
-pip3 install ibm-cos-sdk
+  pip3 install ibm-cos-sdk
 ```
 * Login to IBM Cloud Account using cli 
 ```hcl 
