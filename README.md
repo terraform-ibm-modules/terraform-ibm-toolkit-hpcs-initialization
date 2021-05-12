@@ -1,2 +1,118 @@
-# terraform-ibm-hpcs-initialisation
-Terraform module to initialize HPCS instance
+# Initialising HPCS Service Instances using Terraform Modules
+
+This is a collection of modules that make it easier to initialise HPCS Instance IBM Cloud Platform:
+
+* [ Download From Cos ](./download-from-cos) - It Downloads input json file from cos bucket.Json File contains Crypto Unit secrets.
+* [ Initialisation Automation ](./hpcs-init) - It takes json file as input this module ll initialise HPCS Instance
+* [ Upload TKE Files to COS ](./upload-to-cos) - It Uploads TKE Files sto COS Bucket.
+* [Remove TKE Files](./remove-tkefiles) - It removes TKE Files and input from local.
+
+## Terraform versions
+
+Terraform 0.13.
+
+## Assumptions / Requirements for initializing HPCS instance with provided Terraform automation
+
+* To initialize the HPCS instance using the HPCS init module, it is assume that the HPCS instance is being initialized first time after creating the HPCS instance.
+* There are no administrators are added and key signatures are created.
+* If the HPCS instance was initialized first with script / manually then this auto-init script would not able to initialize the HPCS instance, in this case user would able to run initilaization caommands manually.
+
+## Notes On Initialization:
+* The current script adds two signature key admins.
+* The admin details can be provided in.
+* If number of master keys added is more than three, Master key registry will be `loaded`, `commited` and `setimmidiate` with last three added master keys.
+* Please find the example json [here](references/input.json).
+* Input can be fed in two ways either through local or through IBM Cloud Object Storage
+* The input file is download from the cos bucket using `download_from_cos` null resource
+* Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource
+* After uploading zip file to COS Bucket all the secret files and input file can be deleted from the local machine using `remove_tke_files` null resource.
+
+
+## Example usage
+
+### Download JsonFile From COS
+
+* This module can be used to download administrator credentials if present in COS bucket.
+
+```terraform
+module "download_from_cos" {
+  source          = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/download-from-cos"
+  api_key         = var.api_key
+  cos_crn         = var.cos_crn
+  endpoint        = var.endpoint
+  bucket_name     = var.bucket_name
+  input_file_name = var.input_file_name
+}
+```
+### Initialise HPCS instance using json file
+
+* Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](https://github.com/slzone/terraform-ibm-hpcs/blob/hpcs-init/modules/ibm-hpcs-initialisation/input.json) file.
+
+```terraform
+
+module "hpcs_init" {
+  initialize         = var.initialize
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/hpcs-init"
+  depends_on         = [module.download_from_cos]
+  tke_files_path     = var.tke_files_path
+  input_file_name    = var.input_file_name
+  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+}
+
+```
+### Upload TKE Files to COS
+```terraform
+module "upload_to_cos" {
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/upload-to-cos"
+  depends_on         = [module.hpcs_init]
+  api_key            = var.api_key
+  cos_crn            = var.cos_crn
+  endpoint           = var.endpoint
+  bucket_name        = var.bucket_name
+  tke_files_path     = var.tke_files_path
+  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+}
+```
+### Remove TKE Files from local machine
+`Note:` This module will remove TKE files without having backup.. It is advisable to use this module after uploading TKE Files to COS
+
+```terraform
+module "remove_tke_files" {
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/remove-tkefiles"
+  depends_on         = [module.upload_to_cos]
+  tke_files_path     = var.tke_files_path
+  input_file_name    = var.input_file_name
+  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+}
+```
+### Apply HPCS Network type, Dual deletetion Authorization policy
+```terraform
+module "hpcs_policies" {
+  source               = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/hpcs-policies"
+  depends_on           = [module.hpcs_init]
+  resource_group_name  = var.resource_group_name
+  service_name         = var.service_name
+  hpcs_instance_guid   = data.ibm_resource_instance.hpcs_instance.guid
+  allowed_network_type = var.allowed_network_type
+  hpcs_port            = var.hpcs_port
+  dual_auth_delete     = var.dual_auth_delete
+  region               = var.region
+}
+```
+## Pre-Requisites for Initialisation:
+* python version 3.5 and above
+* pip version 3 and above
+
+``` hcl 
+  pip install pexpect
+```
+`ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
+``` hcl 
+pip install ibm-cos-sdk
+```
+* Login to IBM Cloud Account using cli 
+```hcl 
+ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
+```
+* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
+* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites) 
