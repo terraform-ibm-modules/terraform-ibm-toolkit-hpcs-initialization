@@ -68,7 +68,7 @@ module "download_from_cos" {
   input_file_name = var.input_file_name
 }
 ```
-#### Inputs
+### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
