@@ -54,7 +54,6 @@ source venv/bin/activate
 
 ## Example usage
 
-<br 
 ### Download JsonFile From COS
 
 * This module can be used to download administrator credentials if present in COS bucket.
@@ -80,7 +79,6 @@ module "download_from_cos" {
 | input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
 
-/>
 
 ### Initialise HPCS instance using json file
 
