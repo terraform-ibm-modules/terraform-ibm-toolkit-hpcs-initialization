@@ -11,7 +11,7 @@ This is a collection of modules that make it easier to initialise HPCS Instance 
 
 Terraform 0.13.
 
-## Considerations to initializ HPCS instance by provided Terraform automation
+## Assumptions to initialize HPCS instance by provided Terraform automation
 
 * To initialize the HPCS instance using the HPCS init module, it is assume that the HPCS instance is being initialized first time after creating the HPCS instance.
 * There are no administrators are added and key signatures are created.
@@ -34,7 +34,14 @@ pip install ibm-cos-sdk
 ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
 ```
 * Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
-* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites) 
+* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
+* To run locally consider to create virtual environmet as:
+```hcl
+pip install virtualenv
+virtualenv venv
+virtualenv venv --system-site-packages
+source venv/bin/activate
+```
 
 ## Notes On Initialization
 * The current script adds two signature key admins.
@@ -61,7 +68,7 @@ module "download_from_cos" {
   input_file_name = var.input_file_name
 }
 ```
-#### Inputs
+##### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
@@ -89,7 +96,7 @@ module "hpcs_init" {
 }
 
 ```
-## Inputs
+### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
@@ -112,7 +119,7 @@ module "upload_to_cos" {
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
 }
 ```
-## Inputs
+### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
@@ -136,7 +143,7 @@ module "remove_tke_files" {
   hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
 }
 ```
-## Inputs
+### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
@@ -160,7 +167,7 @@ module "hpcs_policies" {
   dual_auth_delete     = var.dual_auth_delete
 }
 ```
-## Inputs
+### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
