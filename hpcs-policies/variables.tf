@@ -23,7 +23,7 @@ variable "allowed_network_type" {
 }
 
 variable "hpcs_port" {
-  description = "HPCS service port"
+  description = "HPCS service port number"
   type        = number
 }
 
