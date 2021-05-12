@@ -34,7 +34,7 @@ Terraform 0.13.
 ```
 * Login to IBM Cloud Account using cli 
 ```hcl 
-ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
+ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>`
 ```
 * Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
 * To install tke plugin `ibmcloud plugin install tke`. Find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
