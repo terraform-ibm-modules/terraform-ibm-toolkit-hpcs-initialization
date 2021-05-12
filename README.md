@@ -37,7 +37,7 @@ pip install ibm-cos-sdk
 ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>` -a `< cloud endpoint>
 ```
 * Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
-* To install tke plugin `ibmcloud plugin install tke`. find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
+* To install tke plugin `ibmcloud plugin install tke`. Find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
 * To run locally consider to create virtual environmet as:
 ```hcl
 pip install virtualenv
