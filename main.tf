@@ -14,7 +14,7 @@ resource "null_resource" "hpcs_init" {
   provisioner "local-exec" {
     when    = create
     command = <<EOT
-    python ${path.module}/modules/scripts/auto_init.py
+    python ${path.module}/scripts/auto_init.py
         EOT
     environment = {
       CLOUDTKEFILES = var.tke_files_path
@@ -25,7 +25,7 @@ resource "null_resource" "hpcs_init" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-    python ${path.module}/modules/scripts/destroy.py
+    python ${path.module}/scripts/destroy.py
         EOT
     environment = {
       CLOUDTKEFILES = self.triggers.CLOUDTKEFILES

@@ -13,7 +13,7 @@ data "ibm_resource_instance" "hpcs_instance" {
 resource "null_resource" "enable_policies" {
   provisioner "local-exec" {
     when    = create
-    command = "/bin/bash ${path.module}/../scripts/network_policy.sh"
+    command = "/bin/bash ${path.module}/../../scripts/network_policy.sh"
 
     environment = {
       REGION               = var.region
@@ -24,7 +24,7 @@ resource "null_resource" "enable_policies" {
   }
   provisioner "local-exec" {
     when    = create
-    command = "/bin/bash ${path.module}/../scripts/dual_authorization_policy.sh"
+    command = "/bin/bash ${path.module}/../../scripts/dual_authorization_policy.sh"
 
     environment = {
       REGION           = var.region
