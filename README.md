@@ -54,6 +54,9 @@ source venv/bin/activate
 
 ## Example usage
 
+HTML Tag: <br />
+Code:
+
 ### Download JsonFile From COS
 
 * This module can be used to download administrator credentials if present in COS bucket.
@@ -68,7 +71,7 @@ module "download_from_cos" {
   input_file_name = var.input_file_name
 }
 ```
-##### Inputs
+#### Inputs
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
