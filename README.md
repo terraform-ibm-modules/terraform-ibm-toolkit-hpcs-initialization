@@ -21,7 +21,7 @@ Terraform 0.13.
 
 * python version 3.5 and above
 * pip version 3 and above
-
+* Install pexpect as per instructions [here](https://pexpect.readthedocs.io/en/stable/install.html)
 ``` hcl 
   pip install pexpect
 ```
