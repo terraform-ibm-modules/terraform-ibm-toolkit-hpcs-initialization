@@ -21,7 +21,7 @@ Terraform 0.13.
 * The current script adds two signature key admins.
 * The admin details can be provided in.
 * If number of master keys added is more than three, Master key registry will be `loaded`, `commited` and `setimmidiate` with last three added master keys.
-* Please find the example json [here](references/input.json).
+* Please find the example json [here](./input.json).
 * Input can be fed in two ways either through local or through IBM Cloud Object Storage
 * The input file is download from the cos bucket using `download_from_cos` null resource
 * Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource
@@ -36,7 +36,7 @@ Terraform 0.13.
 
 ```terraform
 module "download_from_cos" {
-  source          = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/download-from-cos"
+  source          = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/download-from-cos"
   api_key         = var.api_key
   cos_crn         = var.cos_crn
   endpoint        = var.endpoint
@@ -46,13 +46,13 @@ module "download_from_cos" {
 ```
 ### Initialise HPCS instance using json file
 
-* Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](https://github.com/slzone/terraform-ibm-hpcs/blob/hpcs-init/modules/ibm-hpcs-initialisation/input.json) file.
+* Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](./input.json) file.
 
 ```terraform
 
 module "hpcs_init" {
   initialize         = var.initialize
-  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/hpcs-init"
+  source             = "github.com/slzone/terraform-ibm-hpcs-initialisationref=hpcs-init-dev # Need to change source URL once merged in main branch
   depends_on         = [module.download_from_cos]
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
@@ -63,7 +63,7 @@ module "hpcs_init" {
 ### Upload TKE Files to COS
 ```terraform
 module "upload_to_cos" {
-  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/upload-to-cos"
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/upload-to-cos"
   depends_on         = [module.hpcs_init]
   api_key            = var.api_key
   cos_crn            = var.cos_crn
@@ -78,7 +78,7 @@ module "upload_to_cos" {
 
 ```terraform
 module "remove_tke_files" {
-  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/remove-tkefiles"
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles"
   depends_on         = [module.upload_to_cos]
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
@@ -88,7 +88,7 @@ module "remove_tke_files" {
 ### Apply HPCS Network type, Dual deletetion Authorization policy
 ```terraform
 module "hpcs_policies" {
-  source               = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/hpcs-policies"
+  source               = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies"
   depends_on           = [module.hpcs_init]
   resource_group_name  = var.resource_group_name
   service_name         = var.service_name
