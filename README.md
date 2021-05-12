@@ -57,6 +57,21 @@ source venv/bin/activate
 
 ## Example usage
 
+* Clone the repository:
+```hcl
+  git clone git@github.com:slzone/terraform-ibm-hpcs-initialization.git
+```
+* Create the main.tf, variables.tf files and update the main.tf as in this example [main.tf](./test/stages/stage1-download-from-cos.tf) and variables.tf as in the example [variables.tf](./test/stages/variables.tf)
+* Creating COS bucket is not the part of this Terraform module, so for testing purpose need to create bucket and upload the [input.json](./input.json) file in the bucket. Also this bucket can be used to upload tke-files (signature keys). [Here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision#provision-instance) are the documents to create the COS bucket manually.
+* Run the dependet module first as an example, need to run `download_from_cos` module first to download json file from COS bucket to run `hpcs_init` module.
+* Then do terraform validate, init, plan and apply as:
+```hcl
+  terraform validate
+  terraform init
+  terraform plan
+  terraform apply
+```
+
 ### Download JsonFile From COS
 
 * This module can be used to download administrator credentials if present in COS bucket.
