@@ -6,7 +6,7 @@
 resource "null_resource" "upload_to_cos" {
   provisioner "local-exec" {
     command = <<EOT
-    python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/upload_to_cos.py
+    python ${path.module}/../modules/ibm-hpcs-initialisation/scripts/upload_to_cos.py
         EOT
     environment = {
       API_KEY         = var.api_key

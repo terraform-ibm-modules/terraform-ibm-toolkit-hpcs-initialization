@@ -6,7 +6,7 @@
 resource "null_resource" "remove_tke_files" {
   provisioner "local-exec" {
     command = <<EOT
-    python ${path.module}/../../../modules/ibm-hpcs-initialisation/scripts/remove_tkefiles.py
+    python ${path.module}/../modules/ibm-hpcs-initialisation/scripts/remove_tkefiles.py
         EOT
     environment = {
       CLOUDTKEFILES   = var.tke_files_path
