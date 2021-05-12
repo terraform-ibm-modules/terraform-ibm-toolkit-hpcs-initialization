@@ -72,10 +72,10 @@ module "download_from_cos" {
 
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
-| api_key           | Api key of the COS bucket.                                              | `string` | No       |
-| cos_crn           | COS instance CRN.                                                       | `string` | No       |
-| endpoint          | COS endpoint.                                                           | `string` | No       |
-| bucket_name       | COS bucket name.                                                        | `string` | No       |
+| api_key           | Api key of the COS bucket.                                              | `string` | Yes       |
+| cos_crn           | COS instance CRN.                                                       | `string` | Yes       |
+| endpoint          | COS endpoint.                                                           | `string` | Yes       |
+| bucket_name       | COS bucket name.                                                        | `string` | Yes       |
 | input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
 
