@@ -19,8 +19,11 @@ Terraform 0.13.
 
 ## Pre-Requisites for Initialisation
 
-* python version 3.5 and above
+* python version 3.5 and above: [Installation instructions](https://www.python.org/downloads/)
 * pip version 3 and above
+```hcl
+  python3 -m pip --version
+```
 * Install pexpect as per instructions [here](https://pexpect.readthedocs.io/en/stable/install.html)
 ``` hcl 
   pip install pexpect
