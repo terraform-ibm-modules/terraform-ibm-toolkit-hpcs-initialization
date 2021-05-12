@@ -3,8 +3,8 @@
 This is a collection of modules that make it easier to initialise HPCS Instance IBM Cloud Platform:
 
 * [ Download From Cos ](./download-from-cos) - It Downloads input json file from cos bucket.Json File contains Crypto Unit secrets.
-* [ Initialisation Automation ](./hpcs-init) - It takes json file as input this module ll initialise HPCS Instance
-* [ Upload TKE Files to COS ](./upload-to-cos) - It Uploads TKE Files sto COS Bucket.
+* [ Initialisation Automation ](./main.tf) - It takes json file as input to initialise HPCS Instance
+* [ Upload TKE Files to COS ](./upload-to-cos) - It Uploads TKE Files to COS Bucket.
 * [Remove TKE Files](./remove-tkefiles) - It removes TKE Files and input from local.
 
 ## Terraform versions
@@ -19,10 +19,8 @@ Terraform 0.13.
 
 ## Notes On Initialization:
 * The current script adds two signature key admins.
-* The admin details can be provided in.
-* If number of master keys added is more than three, Master key registry will be `loaded`, `commited` and `setimmidiate` with last three added master keys.
-* Please find the example json [here](./input.json).
-* Input can be fed in two ways either through local or through IBM Cloud Object Storage
+* The admin details can be provided in Json trhough localy or through IBM Cloud Object Storage.
+* Find the example json [here](./input.json).
 * The input file is download from the cos bucket using `download_from_cos` null resource
 * Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource
 * After uploading zip file to COS Bucket all the secret files and input file can be deleted from the local machine using `remove_tke_files` null resource.
@@ -44,6 +42,18 @@ module "download_from_cos" {
   input_file_name = var.input_file_name
 }
 ```
+## Inputs
+
+| Name              | Description                                                             | Type     | Required |
+|-------------------|-------------------------------------------------------------------------|----------|----------|
+| api_key           | Api key of the COS bucket.                                              | `string` | No       |
+| cos_crn           | COS instance CRN.                                                       | `string` | No       |
+| endpoint          | COS endpoint.                                                           | `string` | No       |
+| bucket_name       | COS bucket name.                                                        | `string` | No       |
+| input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
+| tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
+
+
 ### Initialise HPCS instance using json file
 
 * Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](./input.json) file.
@@ -60,6 +70,15 @@ module "hpcs_init" {
 }
 
 ```
+## Inputs
+
+| Name              | Description                                                             | Type     | Required |
+|-------------------|-------------------------------------------------------------------------|----------|----------|
+| initialize           | Flag indicating that if user want to initialize the hpcs instance. If 'true' then                                               | `bool` | Yes       |
+| input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
+| tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
+| hpcs_instance_guid | HPCS Instance GUID                                                     | `string` | Yes      |
+
 ### Upload TKE Files to COS
 ```terraform
 module "upload_to_cos" {
