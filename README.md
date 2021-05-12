@@ -72,6 +72,8 @@ source venv/bin/activate
   terraform apply
 ```
 
+## Module and their required input variable details:
+
 ### Download JsonFile From COS
 
 * This module can be used to download administrator credentials if present in COS bucket.
