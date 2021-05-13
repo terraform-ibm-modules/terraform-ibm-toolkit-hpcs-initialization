@@ -18,8 +18,15 @@ resource "null_resource" "hpcs_init" {
         EOT
     environment = {
       CLOUDTKEFILES = var.tke_files_path
-      INPUT_FILE    = file(var.input_file_name)
-      HPCS_GUID     = var.hpcs_instance_guid
+      # INPUT_FILE      = file(var.input_file_name)
+      HPCS_GUID           = var.hpcs_instance_guid
+      ADMIN1_NAME         = var.admin1_name
+      ADMIN1_PASSWORD     = var.admin1_password
+      ADMIN2_NAME         = var.admin2_name
+      ADMIN2_PASSWORD     = var.admin2_password
+      ADMIN_NUM           = var.admin_num
+      THRESHOLD_VALUE     = var.threshold_value
+      REV_THRESHOLD_VALUE = var.rev_threshold_value
     }
   }
   provisioner "local-exec" {

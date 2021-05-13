@@ -17,35 +17,6 @@ Terraform 0.13.
 * There are no administrators are added and key signatures are created.
 * If the HPCS instance was initialized first with script / manually then this auto-init script would not able to initialize the HPCS instance, in this case user would able to run initilaization caommands manually.
 
-## Pre-Requisites for Initialisation
-
-* python version 3.5 and above: [Installation instructions](https://www.python.org/downloads/)
-* pip version 3 and above
-```hcl
-  python3 -m pip --version
-```
-* Install pexpect as per instructions [here](https://pexpect.readthedocs.io/en/stable/install.html)
-``` hcl 
-  pip3 install pexpect
-```
-`ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
-``` hcl 
-  pip3 install ibm-cos-sdk
-```
-* Login to IBM Cloud Account using cli 
-```hcl 
-ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>`
-```
-* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
-* To install tke plugin `ibmcloud plugin install tke`. Find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
-* To run locally consider to create virtual environmet as:
-```hcl
-pip3 install virtualenv
-virtualenv venv
-virtualenv venv --system-site-packages
-source venv/bin/activate
-```
-
 ## Notes On Initialization
 * The current script adds two signature key admins.
 * The admin details can be provided in Json trhough localy or through IBM Cloud Object Storage.
@@ -57,14 +28,9 @@ source venv/bin/activate
 
 ## Example usage
 
-* Clone the repository:
-```hcl
-  git clone git@github.com:slzone/terraform-ibm-hpcs-initialization.git
-```
-* Create the main.tf, variables.tf files and update the main.tf as in this example [main.tf](./test/stages/stage1-download-from-cos.tf) and variables.tf as in the example [variables.tf](./test/stages/variables.tf)
-* Creating COS bucket is not the part of this Terraform module, so for testing purpose need to create bucket and upload the [input.json](./input.json) file in the bucket. Also this bucket can be used to upload tke-files (signature keys). [Here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision#provision-instance) are the documents to create the COS bucket manually.
-* Run the dependet module first as an example, need to run `download_from_cos` module first to download json file from COS bucket to run `hpcs_init` module.
-* Then do terraform validate, init, plan and apply as:
+* Creating COS bucket is not the part of this Terraform module, but for uploading the signed keys need to create COS bucket as instructed [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision#provision-instance).
+
+* Copy the module decleration from [here](./test/stages/stage0.tf) to the main.tf and variables with their values as in [variable example](./test/stages/stage0.tf) variables.tf files and run the terraform.
 ```hcl
   terraform validate
   terraform init
@@ -74,32 +40,6 @@ source venv/bin/activate
 
 ## Module and their required input variable details:
 
-### Download JsonFile From COS
-
-* This module can be used to download administrator credentials if present in COS bucket.
-
-```terraform
-module "download_from_cos" {
-  source          = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/download-from-cos"
-  api_key         = var.api_key
-  cos_crn         = var.cos_crn
-  endpoint        = var.endpoint
-  bucket_name     = var.bucket_name
-  input_file_name = var.input_file_name
-}
-```
-### Inputs
-
-| Name              | Description                                                             | Type     | Required |
-|-------------------|-------------------------------------------------------------------------|----------|----------|
-| api_key           | Api key of the COS bucket.                                              | `string` | Yes       |
-| cos_crn           | COS instance CRN.                                                       | `string` | Yes       |
-| endpoint          | COS endpoint.                                                           | `string` | Yes       |
-| bucket_name       | COS bucket name.                                                        | `string` | Yes       |
-| input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
-| tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
-
-
 ### Initialise HPCS instance using json file
 
 * Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](./input.json) file.
@@ -107,13 +47,18 @@ module "download_from_cos" {
 ```terraform
 
 module "hpcs_init" {
-  initialize         = var.initialize
-  source             = "github.com/slzone/terraform-ibm-hpcs-initialisation?ref=hpcs-init-dev" 
-  # source             = "github.com/slzone/terraform-ibm-hpcs-initialisation"
-  depends_on         = [module.download_from_cos]
-  tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+  initialize = var.initialize
+  # source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/hpcs-init?ref=hpcs-init"
+  source              = "/Users/aparnamane/Documents/Aparna/Repos/ibmRepos/repo_temp/terraform-ibm-hpcs/modules/ibm-hpcs-initialisation/hpcs-init"
+  hpcs_instance_guid  = var.hpcs_instance_guid
+  tke_files_path      = var.tke_files_path
+  admin1_name         = var.admin1_name
+  admin1_password     = var.admin1_password
+  admin2_name         = var.admin2_name
+  admin2_password     = var.admin2_password
+  admin_num           = var.admin_num
+  threshold_value     = var.threshold_value
+  rev_threshold_value = var.rev_threshold_value
 }
 
 ```
@@ -122,10 +67,15 @@ module "hpcs_init" {
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
 | initialize        | Flag indicating that if user want to initialize the hpcs.                                               | `bool` | Yes       |
-| input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
+| hpcs_instance_guid| HPCS instance GUID.                                                     | `string` | Yes      |
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
-| hpcs_instance_guid | HPCS Instance GUID.                                                    | `string` | Yes      |
-
+| admin1_name       | First admin name.                                                       | `string` | Yes      |
+| admin1_password   | First admin password.                                                   | `string` | Yes      |
+| admin2_name       | Second admin name.                                                      | `string` | Yes      |
+| admin2_password   | Second admin password.                                                  | `string` | Yes      |
+| admin_num         | Number of admins.                                                       | `number` | Yes      |
+| threshold_value   | Threshold value.                                                        | `number` | Yes      |
+| rev_threshold_value   | Remove / delete threshold value.                                    | `number` | Yes      |
 
 ### Upload TKE Files to COS
 ```terraform
@@ -198,3 +148,37 @@ module "hpcs_policies" {
 | allowed_network_type       | Allowed network type.                                          | `string` | Yes      |
 | hpcs_port    | HPCS service port number.                                                    | `string` | Yes      |
 | dual_auth_delete| Dual auth deletion policy enabled or not.                                                     | `bool` | Yes      |
+
+
+## Notes for developers
+
+* Clone the repository:
+```hcl
+  git clone git@github.com:slzone/terraform-ibm-hpcs-initialization.git
+```
+* python version 3.5 and above: [Installation instructions](https://www.python.org/downloads/)
+* pip version 3 and above
+```hcl
+  python3 -m pip --version
+```
+* Install pexpect as per instructions [here](https://pexpect.readthedocs.io/en/stable/install.html)
+``` hcl 
+  pip3 install pexpect
+```
+`ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
+``` hcl 
+  pip3 install ibm-cos-sdk
+```
+* Login to IBM Cloud Account using cli 
+```hcl 
+ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>`
+```
+* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
+* To install tke plugin `ibmcloud plugin install tke`. Find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
+* To run locally consider to create virtual environmet as:
+```hcl
+pip3 install virtualenv
+virtualenv venv
+virtualenv venv --system-site-packages
+source venv/bin/activate
+```
