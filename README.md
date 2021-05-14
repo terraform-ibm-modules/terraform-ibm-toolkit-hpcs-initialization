@@ -30,7 +30,7 @@ Terraform 0.13.
 
 * Creating COS bucket is not the part of this Terraform module, but for uploading the signed keys need to create COS bucket as instructed [here](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-provision#provision-instance).
 
-* Copy the module decleration from [here](./test/stages/stage0.tf) to the main.tf and variables with their values as in [variable example](./test/stages/stage0.tf) variables.tf files and run the terraform.
+* Copy the module decleration from [here](./test/stages/stage0.tf) to the main.tf and variables with their values as in [variable example](./test/stages/variables.tf) variables.tf files and run the terraform.
 ```hcl
   terraform validate
   terraform init
