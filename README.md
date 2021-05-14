@@ -48,8 +48,8 @@ Terraform 0.13.
 
 module "hpcs_init" {
   initialize = var.initialize
-  # source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/ibm-hpcs-initialisation/hpcs-init?ref=hpcs-init"
-  source              = "/Users/aparnamane/Documents/Aparna/Repos/ibmRepos/repo_temp/terraform-ibm-hpcs/modules/ibm-hpcs-initialisation/hpcs-init"
+  source     = "git@github.com:slzone/terraform-ibm-hpcs-initialization.git?ref=hpcs-init"
+  # source              = "https://github.com/slzone/terraform-ibm-hpcs-initialization"
   hpcs_instance_guid  = var.hpcs_instance_guid
   tke_files_path      = var.tke_files_path
   admin1_name         = var.admin1_name
@@ -80,14 +80,15 @@ module "hpcs_init" {
 ### Upload TKE Files to COS
 ```terraform
 module "upload_to_cos" {
-  source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/upload-to-cos"
+  source = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/upload-to-cos?ref=hpcs-init"
+  # source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/upload-to-cos"
   depends_on         = [module.hpcs_init]
   api_key            = var.api_key
   cos_crn            = var.cos_crn
   endpoint           = var.endpoint
   bucket_name        = var.bucket_name
   tke_files_path     = var.tke_files_path
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+  hpcs_instance_guid = var.hpcs_instance_guid
 }
 ```
 ### Inputs
@@ -107,11 +108,12 @@ module "upload_to_cos" {
 
 ```terraform
 module "remove_tke_files" {
-  source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles"
+  # source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles?ref=hpcs-init"
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles"
   depends_on         = [module.upload_to_cos]
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
-  hpcs_instance_guid = data.ibm_resource_instance.hpcs_instance.guid
+  hpcs_instance_guid = var.hpcs_instance_guid
 }
 ```
 ### Inputs
@@ -127,12 +129,13 @@ module "remove_tke_files" {
 ### Apply HPCS Network type, Dual deletetion Authorization policy
 ```terraform
 module "hpcs_policies" {
-  source               = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies"
+  #   source               = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies"
+  source               = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies?ref=hpcs-init"
   depends_on           = [module.hpcs_init]
   region               = var.region
   resource_group_name  = var.resource_group_name
   service_name         = var.service_name
-  hpcs_instance_guid   = data.ibm_resource_instance.hpcs_instance.guid
+  hpcs_instance_guid   = var.hpcs_instance_guid
   allowed_network_type = var.allowed_network_type
   hpcs_port            = var.hpcs_port
   dual_auth_delete     = var.dual_auth_delete
