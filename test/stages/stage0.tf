@@ -1,8 +1,8 @@
 # Initialize the HPCS instance
 module "hpcs_init" {
   initialize = var.initialize
-  source     = "git@github.com:slzone/terraform-ibm-hpcs-initialization.git?ref=hpcs-init-dec"
-  # source              = "https://github.com/slzone/terraform-ibm-hpcs-initialization"
+  source     = "git@github.com:slzone/terraform-ibm-hpcs-initialisation.git?ref=hpcs-init-dev"
+  # source              = "https://github.com/slzone/terraform-ibm-hpcs-initialisation"
   hpcs_instance_guid  = var.hpcs_instance_guid
   tke_files_path      = var.tke_files_path
   admin1_name         = var.admin1_name
@@ -16,8 +16,8 @@ module "hpcs_init" {
 
 # Upload signed keys / tke files to provided COS bucket
 module "upload_to_cos" {
-  source = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/upload-to-cos?ref=hpcs-init-dev"
-  #   source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/upload-to-cos"
+  source = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/upload-to-cos?ref=hpcs-init-dev"
+  #   source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/upload-to-cos"
   depends_on         = [module.hpcs_init]
   api_key            = var.api_key
   cos_crn            = var.cos_crn
@@ -29,8 +29,8 @@ module "upload_to_cos" {
 
 # Remove tke files from local path
 module "remove_tke_files" {
-  source = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles?ref=hpcs-init-dev"
-  #   source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles"
+  source = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles?ref=hpcs-init-dev"
+  #   source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles"
   depends_on         = [module.upload_to_cos]
   tke_files_path     = var.tke_files_path
   input_file_name    = var.input_file_name
