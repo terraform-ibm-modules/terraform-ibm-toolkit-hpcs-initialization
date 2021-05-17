@@ -9,7 +9,6 @@ import subprocess
 # --------------------------------------------
 # GET INPUTS From Null resource
 # --------------------------------------------
-# inputfile = os.environ.get("INPUT_FILE","")
 tke_files_path=os.environ.get("CLOUDTKEFILES","")
 hpcs_guid = os.environ.get("HPCS_GUID","")
 admin1_name = os.environ.get("ADMIN1_NAME", "")
@@ -29,29 +28,6 @@ out_num = out.stdout.decode("utf-8")
 inst_num = str(out_num.strip())
 deletetempfile = subprocess.run(["rm", "-r", "./temp.txt"], capture_output=True)
 
-# print(pexpect.run('ibmcloud iam oauth-tokens'))
-# if inputfile == "":
-#     print("[ERROR] Unable to read file or Provided file is empty")
-# try:
-#     with open(inputfile) as complex_data:
-#         d = complex_data.read()
-#         data = json.loads(d)
-#         # print(data)
-# except Exception as error:
-#     print("[ERROR] Unable to read data from  input file", error)
-# else:
-
-#     # --------------------------------------------
-#     # Declare JSON input key-values
-#     # --------------------------------------------
-#     admin1_name=str(data["admin_name"][0])
-#     admin1_password=str(data["admin_password"][0])
-#     admin2_name=str(data["admin_name"][1])
-#     admin2_password=str(data["admin_password"][1])
-#     admin_num=str(len(data["admin_name"]))
-#     threshold_value = str(data["threshold"])
-#     rev_threshold_value = str(data["rev_threshold"])
-    
 # ----------------------------------------------------------------------------------------
 # Create custom directory in the output path provided inorder to avoid misplacement of data
 # ----------------------------------------------------------------------------------------
