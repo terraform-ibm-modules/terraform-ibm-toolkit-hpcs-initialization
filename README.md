@@ -40,7 +40,7 @@ Terraform 0.13.
 
 ## Module and their required input variable details:
 
-### Initialise HPCS instance using json file
+### Initialise HPCS instance
 
 * Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](./input.json) file.
 
