@@ -12,7 +12,7 @@ variable "service_name" {
 
 variable "hpcs_instance_guid" {
   type        = string
-  description = "GUID of HPCS Instance"
+  description = "HPCS Instance GUID"
 }
 
 variable "resource_group_name" {
