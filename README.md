@@ -153,6 +153,147 @@ module "hpcs_policies" {
 | dual_auth_delete| Dual auth deletion policy enabled or not.                                                     | `bool` | Yes      |
 
 
+## Validation: HPCS initialization
+
+* HPCS initialization can be validated by running following command and should able provide the details as bellow.
+
+```hcl
+(venv) aparnamane@Aparnas-MBP temp-tf-run$  ==> ibmcloud tke cryptounit-add
+
+API endpoint:     https://cloud.ibm.com
+Region:           us-south
+User:             
+Account:          Public Cloud Customer Success/Austin/IBM's Account (ad5d072102214f4395eab22f03bbb2f9)
+Resource group:   slz-rg
+
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION   
+1                 false      OPERATIONAL   [us-south].[AZ1-CS7].[01].[13]   
+2                 false      OPERATIONAL   [us-south].[AZ3-CS9].[01].[39]   
+3                 false      RECOVERY      [us-south].[AZ3-CS9].[01].[38]   
+4                 false      RECOVERY      [us-east].[AZ3-CS3].[01].[12]   
+
+SERVICE INSTANCE: 40c0734c-0c17-42fe-b7bb-a86cf9755bd1
+CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION   
+5                 false      OPERATIONAL   [us-south].[AZ3-CS9].[01].[37]   
+6                 false      OPERATIONAL   [us-south].[AZ1-CS7].[01].[11]   
+7                 false      RECOVERY      [us-south].[AZ1-CS1].[02].[09]   
+8                 false      RECOVERY      [us-east].[AZ2-CS2].[01].[13]   
+
+SERVICE INSTANCE: 58e67e85-ec9a-474e-bcd5-aad02a1af487
+CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION   
+9                 false      OPERATIONAL   [us-south].[AZ2-CS8].[01].[24]   
+10                false      OPERATIONAL   [us-south].[AZ3-CS3].[03].[03]   
+11                false      RECOVERY      [us-south].[AZ2-CS8].[01].[23]   
+12                false      RECOVERY      [us-east].[AZ1-CS1].[03].[05]   
+
+Note: all operational crypto units in a service instance must be configured the same.
+Use 'ibmcloud tke cryptounit-compare' to check how crypto units are configured.
+
+Enter a list of CRYPTO UNIT NUM to add, separated by spaces:
+> 1 2 3 4
+OK
+
+API endpoint:     https://cloud.ibm.com
+Region:           us-south
+User:             
+Account:          Public Cloud Customer Success/Austin/IBM's Account (ad5d072102214f4395eab22f03bbb2f9)
+Resource group:   slz-rg
+
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION   
+1                 true       OPERATIONAL   [us-south].[AZ1-CS7].[01].[13]   
+2                 true       OPERATIONAL   [us-south].[AZ3-CS9].[01].[39]   
+3                 true       RECOVERY      [us-south].[AZ3-CS9].[01].[38]   
+4                 true       RECOVERY      [us-east].[AZ3-CS3].[01].[12]   
+
+SERVICE INSTANCE: 40c0734c-0c17-42fe-b7bb-a86cf9755bd1
+CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION   
+5                 false      OPERATIONAL   [us-south].[AZ3-CS9].[01].[37]   
+6                 false      OPERATIONAL   [us-south].[AZ1-CS7].[01].[11]   
+7                 false      RECOVERY      [us-south].[AZ1-CS1].[02].[09]   
+8                 false      RECOVERY      [us-east].[AZ2-CS2].[01].[13]   
+
+SERVICE INSTANCE: 58e67e85-ec9a-474e-bcd5-aad02a1af487
+CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION   
+9                 false      OPERATIONAL   [us-south].[AZ2-CS8].[01].[24]   
+10                false      OPERATIONAL   [us-south].[AZ3-CS3].[03].[03]   
+11                false      RECOVERY      [us-south].[AZ2-CS8].[01].[23]   
+12                false      RECOVERY      [us-east].[AZ1-CS1].[03].[05]   
+
+Note: all operational crypto units in a service instance must be configured the same.
+Use 'ibmcloud tke cryptounit-compare' to check how crypto units are configured.
+(venv) aparnamane@Aparnas-MBP temp-tf-run$  ==> ibmcloud tke cryptounit-compare
+
+SIGNATURE THRESHOLDS
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   SIGNATURE THRESHOLD   REVOCATION THRESHOLD   
+1                 2                     2   
+2                 2                     2   
+3*                2                     2   
+4*                2                     2   
+
+* Indicates a recovery crypto unit used only to hold a backup master key value.
+
+==> Crypto units with a signature threshold of 0 are in IMPRINT MODE. <==
+
+
+CRYPTO UNIT ADMINISTRATORS
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   ADMIN NAME   SUBJECT KEY IDENTIFIER   
+1                 admin1       2ce6f22b1d965eb480b1646bdd1886...   
+                  admin2       232cbaf94ecf66680af5d2f7eab212...   
+2                 admin1       2ce6f22b1d965eb480b1646bdd1886...   
+                  admin2       232cbaf94ecf66680af5d2f7eab212...   
+3*                admin1       2ce6f22b1d965eb480b1646bdd1886...   
+                  admin2       232cbaf94ecf66680af5d2f7eab212...   
+4*                admin1       2ce6f22b1d965eb480b1646bdd1886...   
+                  admin2       232cbaf94ecf66680af5d2f7eab212...   
+
+* Indicates a recovery crypto unit used only to hold a backup master key value.
+
+
+NEW MASTER KEY REGISTER
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   STATUS   VERIFICATION PATTERN   
+1                 Empty    00000000000000000000000000000000   
+                           00000000000000000000000000000000   
+2                 Empty    00000000000000000000000000000000   
+                           00000000000000000000000000000000   
+3*                Empty    00000000000000000000000000000000   
+                           00000000000000000000000000000000   
+4*                Empty    00000000000000000000000000000000   
+                           00000000000000000000000000000000   
+
+
+CURRENT MASTER KEY REGISTER
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   STATUS   VERIFICATION PATTERN   
+1                 Valid    875ee76406167498a2c6474f19a611c9   
+                           5e5bf22ae9b63da133cd8170f620aef4   
+2                 Valid    875ee76406167498a2c6474f19a611c9   
+                           5e5bf22ae9b63da133cd8170f620aef4   
+3*                Valid    875ee76406167498a2c6474f19a611c9   
+                           5e5bf22ae9b63da133cd8170f620aef4   
+4*                Valid    875ee76406167498a2c6474f19a611c9   
+                           5e5bf22ae9b63da133cd8170f620aef4   
+
+* Indicates a recovery crypto unit used only to hold a backup master key value.
+
+
+CONTROL POINTS
+SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
+CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER   
+1                 Set                    Set           Set   
+2                 Set                    Set           Set   
+3*                Set                    Set           Set   
+4*                Set                    Set           Set   
+
+* Indicates a recovery crypto unit used only to hold a backup master key value.
+
+==> All crypto units are configured the same. <==
+```
+
 ## Notes for developers
 
 * Clone the repository:
