@@ -153,7 +153,7 @@ module "hpcs_policies" {
 | dual_auth_delete| Dual auth deletion policy enabled or not.                                                     | `bool` | Yes      |
 
 
-## Validation: HPCS initialization
+## Validation Steps: HPCS initialization
 
 * HPCS initialization can be validated by running following command and should be able provide the details as bellow.
 
