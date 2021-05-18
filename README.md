@@ -292,8 +292,8 @@ CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER
 
 ==> All crypto units are configured the same. <==
 ```
-2. tke files in COS bucket:
-* tke files can be seen in COS bucket from console as show ![here](./tke-file-cos-upload.png)
+2. Tke files in COS bucket:
+* Tke files can be seen in COS bucket from console as shown![here](./tke-file-cos-upload.png)
 
 
 ## Notes for developers
