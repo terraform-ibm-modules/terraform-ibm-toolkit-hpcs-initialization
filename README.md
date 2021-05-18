@@ -151,9 +151,7 @@ module "hpcs_policies" {
 
 ## Validation Steps: 
 
-1. HPCS initialization
-
-* HPCS initialization can be validated by running following command and should be able provide the details as bellow.
+* HPCS initialization: HPCS initialization can be validated by running following command and should be able provide the details as bellow.
 
 ```hcl
 ==> ibmcloud tke cryptounit-add
@@ -292,8 +290,7 @@ CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER
 
 ==> All crypto units are configured the same. <==
 ```
-2. Tke files in COS bucket:
-* Tke files can be seen in COS bucket from console as shown![here](./tke-file-cos-upload.png)
+* Tke files in COS bucket: Tke files can be seen in COS bucket from console as shown![here](./tke-file-cos-upload.png)
 
 
 ## Notes for developers
