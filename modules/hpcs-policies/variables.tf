@@ -10,6 +10,11 @@ variable "service_name" {
   default     = "hs-crypto"
 }
 
+variable "hpcs_instance_guid" {
+  type        = string
+  description = "GUID of HPCS Instance"
+}
+
 variable "resource_group_name" {
   type        = string
   description = "Resource group name"
