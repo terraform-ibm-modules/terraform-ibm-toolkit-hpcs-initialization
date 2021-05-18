@@ -155,10 +155,10 @@ module "hpcs_policies" {
 
 ## Validation: HPCS initialization
 
-* HPCS initialization can be validated by running following command and should able provide the details as bellow.
+* HPCS initialization can be validated by running following command and should be able provide the details as bellow.
 
 ```hcl
-(venv) aparnamane@Aparnas-MBP temp-tf-run$  ==> ibmcloud tke cryptounit-add
+==> ibmcloud tke cryptounit-add
 
 API endpoint:     https://cloud.ibm.com
 Region:           us-south
@@ -223,7 +223,8 @@ CRYPTO UNIT NUM   SELECTED   TYPE          LOCATION
 
 Note: all operational crypto units in a service instance must be configured the same.
 Use 'ibmcloud tke cryptounit-compare' to check how crypto units are configured.
-(venv) aparnamane@Aparnas-MBP temp-tf-run$  ==> ibmcloud tke cryptounit-compare
+
+==> ibmcloud tke cryptounit-compare
 
 SIGNATURE THRESHOLDS
 SERVICE INSTANCE: 3395bd87-0814-42e1-9800-3ce199cf769b
