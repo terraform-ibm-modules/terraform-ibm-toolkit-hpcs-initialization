@@ -11,6 +11,35 @@ This is a collection of modules that make it easier to initialise HPCS Instance 
 
 Terraform 0.13.
 
+## Prerequisite
+
+* python version 3.5 and above: [Installation instructions](https://www.python.org/downloads/)
+* pip version 3 and above
+```hcl
+  python3 -m pip --version
+```
+* Install pexpect as per instructions [here](https://pexpect.readthedocs.io/en/stable/install.html)
+``` hcl 
+  pip3 install pexpect
+```
+`ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
+``` hcl 
+  pip3 install ibm-cos-sdk
+```
+* Login to IBM Cloud Account using cli 
+```hcl 
+ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>`
+```
+* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
+* To install tke plugin `ibmcloud plugin install tke`. Find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
+* To run locally consider to create virtual environmet as:
+```hcl
+pip3 install virtualenv
+virtualenv venv
+virtualenv venv --system-site-packages
+source venv/bin/activate
+```
+
 ## Assumptions to initialize HPCS instance by provided Terraform automation
 
 * To initialize the HPCS instance using the HPCS init module, it is assume that the HPCS instance is being initialized first time after creating the HPCS instance.
@@ -290,38 +319,15 @@ CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER
 
 ==> All crypto units are configured the same. <==
 ```
-* Tke files in COS bucket: Tke files can be seen in COS bucket from console as shown![here](./tke-file-cos-upload.png)
+* Tke files in COS bucket: Tke files can be seen in COS bucket from console as shown
+![here](./tke-file-cos-upload.png)
 
+* HPCS policy apply: Can be validated from IBM cloud console as shown below:
+![here](./hpcs-policy.png)
 
 ## Notes for developers
 
 * Clone the repository:
 ```hcl
   git clone git@github.com:slzone/terraform-ibm-hpcs-initialization.git
-```
-* python version 3.5 and above: [Installation instructions](https://www.python.org/downloads/)
-* pip version 3 and above
-```hcl
-  python3 -m pip --version
-```
-* Install pexpect as per instructions [here](https://pexpect.readthedocs.io/en/stable/install.html)
-``` hcl 
-  pip3 install pexpect
-```
-`ibm-cos-sdk` package is required if initialisation is performed using objeck storage example..
-``` hcl 
-  pip3 install ibm-cos-sdk
-```
-* Login to IBM Cloud Account using cli 
-```hcl 
-ibmcloud login --apikey `<XXXYourAPIKEYXXXXX>` -r `<region>` -g `<resource_group>`
-```
-* Generate oauth-tokens `ibmcloud iam oauth-tokens`. This step should be done as and when token expires. 
-* To install tke plugin `ibmcloud plugin install tke`. Find more info on tke plugin [here](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm#initialize-crypto-prerequisites)
-* To run locally consider to create virtual environmet as:
-```hcl
-pip3 install virtualenv
-virtualenv venv
-virtualenv venv --system-site-packages
-source venv/bin/activate
 ```
