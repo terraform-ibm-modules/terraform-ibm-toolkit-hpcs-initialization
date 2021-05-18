@@ -1,15 +1,5 @@
 # Enable the HPCS policies 
 
-data "ibm_resource_group" "rg_name" {
-  name = var.resource_group_name
-}
-
-data "ibm_resource_instance" "hpcs_instance" {
-  name              = var.service_name
-  resource_group_id = data.ibm_resource_group.rg_name.id
-  service           = var.service_name
-}
-
 resource "null_resource" "enable_policies" {
   provisioner "local-exec" {
     when    = create

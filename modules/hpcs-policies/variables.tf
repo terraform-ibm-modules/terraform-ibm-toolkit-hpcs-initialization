@@ -4,12 +4,6 @@ variable "region" {
   description = "Location of HPCS Instance"
 }
 
-variable "service_name" {
-  type        = string
-  description = "Name of HPCS Instance"
-  default     = "hs-crypto"
-}
-
 variable "hpcs_instance_guid" {
   type        = string
   description = "HPCS Instance GUID"

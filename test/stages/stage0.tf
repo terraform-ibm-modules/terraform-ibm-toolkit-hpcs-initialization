@@ -33,7 +33,6 @@ module "remove_tke_files" {
   #   source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles"
   depends_on     = [module.upload_to_cos]
   tke_files_path = var.tke_files_path
-  # input_file_name    = var.input_file_name
   hpcs_instance_guid = var.hpcs_instance_guid
 }
 
@@ -44,7 +43,6 @@ module "hpcs_policies" {
   depends_on           = [module.hpcs_init]
   region               = var.region
   resource_group_name  = var.resource_group_name
-  service_name         = var.service_name
   hpcs_instance_guid   = var.hpcs_instance_guid
   allowed_network_type = var.allowed_network_type
   hpcs_port            = var.hpcs_port

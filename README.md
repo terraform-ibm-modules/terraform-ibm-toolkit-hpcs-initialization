@@ -112,7 +112,6 @@ module "remove_tke_files" {
   source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles"
   depends_on         = [module.upload_to_cos]
   tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
   hpcs_instance_guid = var.hpcs_instance_guid
 }
 ```
@@ -121,7 +120,6 @@ module "remove_tke_files" {
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
 | bucket_name       | COS bucket name.                                                        | `string` | Yes      |
-| input_file_name   | Input json file name that is present in the cos-bucket or in the local. | `string` | Yes      |
 | tke_files_path    | Path to which tke files has to be exported.                             | `string` | Yes      |
 | hpcs_instance_guid| HPCS Instance GUID.                                                     | `string` | Yes      |
 
@@ -134,7 +132,6 @@ module "hpcs_policies" {
   depends_on           = [module.hpcs_init]
   region               = var.region
   resource_group_name  = var.resource_group_name
-  service_name         = var.service_name
   hpcs_instance_guid   = var.hpcs_instance_guid
   allowed_network_type = var.allowed_network_type
   hpcs_port            = var.hpcs_port
@@ -146,14 +143,15 @@ module "hpcs_policies" {
 | Name              | Description                                                             | Type     | Required |
 |-------------------|-------------------------------------------------------------------------|----------|----------|
 | region           | Location of HPCS Instance.                                               | `string` | Yes      |
-| service_name           | Name of HPCS Instance.                                             | `string` | Yes      |
 | resource_group_name    | CResource group name.                                              | `string` | Yes      |
 | allowed_network_type       | Allowed network type.                                          | `string` | Yes      |
 | hpcs_port    | HPCS service port number.                                                    | `string` | Yes      |
 | dual_auth_delete| Dual auth deletion policy enabled or not.                                                     | `bool` | Yes      |
 
 
-## Validation Steps: HPCS initialization
+## Validation Steps: 
+
+1. HPCS initialization
 
 * HPCS initialization can be validated by running following command and should be able provide the details as bellow.
 
@@ -294,6 +292,9 @@ CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER
 
 ==> All crypto units are configured the same. <==
 ```
+2. tke files in COS bucket:
+* tke files can be seen in COS bucket from console as show ![here](./tke-file-cos-upload.png)
+
 
 ## Notes for developers
 
