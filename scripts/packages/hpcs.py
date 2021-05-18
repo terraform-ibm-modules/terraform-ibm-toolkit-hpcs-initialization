@@ -2,8 +2,6 @@ import pexpect
 import re
 import time
 import os
-from keyboard import press
-
 
 def list_crypto_units():
     print("########### ibmcloud tke cryptounits ########### \n")
