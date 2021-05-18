@@ -28,7 +28,7 @@ resource "null_resource" "enable_policies" {
 
     environment = {
       REGION           = var.region
-      HPCS_INSTANCE_ID = data.ibm_resource_instance.hpcs_instance.guid
+      HPCS_INSTANCE_ID = var.hpcs_instance_guid
       DUAL_AUTH_DELETE = var.dual_auth_delete
       PORT             = var.hpcs_port
     }
