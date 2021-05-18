@@ -17,7 +17,7 @@ resource "null_resource" "enable_policies" {
 
     environment = {
       REGION               = var.region
-      HPCS_INSTANCE_ID     = data.ibm_resource_instance.hpcs_instance.guid
+      HPCS_INSTANCE_ID     = var.hpcs_instance_guid
       ALLOWED_NETWORK_TYPE = var.allowed_network_type
       PORT                 = var.hpcs_port
     }
