@@ -31,9 +31,9 @@ module "upload_to_cos" {
 module "remove_tke_files" {
   source = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles?ref=hpcs-init-dev"
   #   source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles"
-  depends_on         = [module.upload_to_cos]
-  tke_files_path     = var.tke_files_path
-  input_file_name    = var.input_file_name
+  depends_on     = [module.upload_to_cos]
+  tke_files_path = var.tke_files_path
+  # input_file_name    = var.input_file_name
   hpcs_instance_guid = var.hpcs_instance_guid
 }
 

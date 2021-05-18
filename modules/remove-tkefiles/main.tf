@@ -9,9 +9,9 @@ resource "null_resource" "remove_tke_files" {
     python ${path.module}/../../scripts/remove_tkefiles.py
         EOT
     environment = {
-      CLOUDTKEFILES   = var.tke_files_path
-      INPUT_FILE_NAME = var.input_file_name
-      HPCS_GUID       = var.hpcs_instance_guid
+      CLOUDTKEFILES = var.tke_files_path
+      # INPUT_FILE_NAME = var.input_file_name
+      HPCS_GUID = var.hpcs_instance_guid
     }
   }
 }
