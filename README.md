@@ -322,7 +322,7 @@ CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER
 
 * HPCS initialization can be validated from console as well as:
 ![here](./initialization-from-console.png)
-* Tke files in COS bucket: Tke files can be seen in COS bucket from console as shown
+* Tke files in COS bucket: Tke files can be seen in COS bucket from console as shown below:
 ![here](./tke-file-cos-upload.png)
 
 * HPCS policy apply: Can be validated from IBM cloud console as shown below:
