@@ -8,7 +8,6 @@ resource "null_resource" "hpcs_init" {
 
   triggers = {
     CLOUDTKEFILES = var.tke_files_path
-    INPUT_FILE    = file(var.input_file_name)
     HPCS_GUID     = var.hpcs_instance_guid
   }
   provisioner "local-exec" {
