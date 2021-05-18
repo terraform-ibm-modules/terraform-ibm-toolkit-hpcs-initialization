@@ -117,10 +117,15 @@ variable "region" {
   default     = "us-south"
 }
 
+variable "instnace_name" {
+  type        = string
+  description = "Name of HPCS Instance"
+}
+
 variable "service_name" {
   type        = string
   description = "Name of HPCS Instance"
-  default     = "slz-rg-hpcs"
+  default     = "hs-crypto"
 }
 
 variable "resource_group_name" {

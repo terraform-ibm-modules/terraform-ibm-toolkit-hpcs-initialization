@@ -20,8 +20,8 @@ threshold_value = os.environ.get("THRESHOLD_VALUE", "")
 rev_threshold_value = os.environ.get("REV_THRESHOLD_VALUE", "")
 
 # Get HPCS instance number
-cmd_exe = subprocess.run(["chmod", "u+x", "hpcs_inst_num.sh"], capture_output=True)
-run_command = "./hpcs_inst_num.sh '%s'" % (str(hpcs_guid))
+cmd_exe = subprocess.run(["chmod", "u+x", "./hpcs_inst_num.sh"], capture_output=True)
+run_command = ".terraform/modules/hpcs_init/scripts/hpcs_inst_num.sh '%s'" % (str(hpcs_guid))
 os.system(run_command)
 out = subprocess.run(["cat", "./temp.txt"], capture_output=True)
 out_num = out.stdout.decode("utf-8")
