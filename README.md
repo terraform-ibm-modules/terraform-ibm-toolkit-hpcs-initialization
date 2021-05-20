@@ -76,9 +76,8 @@ source venv/bin/activate
 ```terraform
 
 module "hpcs_init" {
-  initialize = var.initialize
-  source     = "git@github.com:slzone/terraform-ibm-hpcs-initialization.git?ref=hpcs-init"
-  # source              = "https://github.com/slzone/terraform-ibm-hpcs-initialization"
+  initialize          = var.initialize
+  source              = "git::ssh://git@github.com/slzone/terraform-ibm-hpcs-initialisation"
   hpcs_instance_guid  = var.hpcs_instance_guid
   tke_files_path      = var.tke_files_path
   admin1_name         = var.admin1_name
@@ -109,8 +108,7 @@ module "hpcs_init" {
 ### Upload TKE Files to COS
 ```terraform
 module "upload_to_cos" {
-  source = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/upload-to-cos?ref=hpcs-init"
-  # source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/upload-to-cos"
+  source             = "git::ssh://git@github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/upload-to-cos"
   depends_on         = [module.hpcs_init]
   api_key            = var.api_key
   cos_crn            = var.cos_crn
@@ -137,8 +135,7 @@ module "upload_to_cos" {
 
 ```terraform
 module "remove_tke_files" {
-  # source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles?ref=hpcs-init"
-  source             = "git::https://github.com/slzone/terraform-ibm-hpcs.git//modules/remove-tkefiles"
+  source             = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/remove-tkefiles"
   depends_on         = [module.upload_to_cos]
   tke_files_path     = var.tke_files_path
   hpcs_instance_guid = var.hpcs_instance_guid
@@ -156,8 +153,7 @@ module "remove_tke_files" {
 ### Apply HPCS Network type, Dual deletetion Authorization policy
 ```terraform
 module "hpcs_policies" {
-  #   source               = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies"
-  source               = "git::https://github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies?ref=hpcs-init"
+  source               = "git::ssh://git@github.com/slzone/terraform-ibm-hpcs-initialisation.git//modules/hpcs-policies"
   depends_on           = [module.hpcs_init]
   region               = var.region
   resource_group_name  = var.resource_group_name
