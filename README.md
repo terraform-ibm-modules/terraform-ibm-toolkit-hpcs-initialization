@@ -2,8 +2,7 @@
 
 This is a collection of modules that make it easier to initialise HPCS Instance IBM Cloud Platform:
 
-* [ Download From Cos ](./download-from-cos) - It Downloads input json file from cos bucket.Json File contains Crypto Unit secrets.
-* [ Initialisation Automation ](./main.tf) - It takes json file as input to initialise HPCS Instance
+* [ Initialisation Automation ](./main.tf) - It takes variables file as input to initialise HPCS Instance
 * [ Upload TKE Files to COS ](./upload-to-cos) - It Uploads TKE Files to COS Bucket.
 * [Remove TKE Files](./remove-tkefiles) - It removes TKE Files and input from local.
 
@@ -48,9 +47,7 @@ source venv/bin/activate
 
 ## Notes On Initialization
 * The current script adds two signature key admins.
-* The admin details can be provided in Json trhough localy or through IBM Cloud Object Storage.
-* Find the example json [here](./input.json).
-* The input file is download from the cos bucket using `download_from_cos` null resource
+* The admin details can be provided in in variables.tf file.
 * Secret TKE Files that are obtained after initialisation can be stored back in the COS Bucket as a Zip File using `upload_to_cos`null resource
 * After uploading zip file to COS Bucket all the secret files and input file can be deleted from the local machine using `remove_tke_files` null resource.
 
@@ -70,8 +67,6 @@ source venv/bin/activate
 ## Module and their required input variable details:
 
 ### Initialise HPCS instance
-
-* Json file can be downloaded from COS bucket or locally provided as in this examaple [input.json](./input.json) file.
 
 ```terraform
 
