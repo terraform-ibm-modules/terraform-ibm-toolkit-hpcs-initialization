@@ -3,6 +3,7 @@
 variable "resource_group_name" {
   type        = string
   description = "Existing resource group where the IKS cluster will be provisioned."
+  default = "toolkit-dev"
 }
 
 variable "ibmcloud_api_key" {
@@ -13,6 +14,7 @@ variable "ibmcloud_api_key" {
 variable "region" {
   type        = string
   description = "Region for VLANs defined in private_vlan_number and public_vlan_number."
+  default = "us-east"
 }
 
 variable "name_prefix" {
@@ -22,10 +24,5 @@ variable "name_prefix" {
 }
 
 variable "hpcs_name" {
-  default = ""
-}
-
-variable "cross_region_location" {
-  type    = string
   default = ""
 }
