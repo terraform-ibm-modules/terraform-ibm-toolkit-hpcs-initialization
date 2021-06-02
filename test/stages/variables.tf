@@ -22,19 +22,7 @@ variable "name_prefix" {
 }
 
 variable "hpcs_name" {
-  type        = string
-}
-
-variable "kms_key_name" {
-  type        = string
-}
-
-variable "hpcs_region" {
-  type        = string
-}
-
-variable "hpcs_resource_group_name" {
-  type        = string
+  default = ""
 }
 
 variable "cross_region_location" {
