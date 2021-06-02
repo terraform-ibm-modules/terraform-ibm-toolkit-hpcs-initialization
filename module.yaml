@@ -1,0 +1,20 @@
+name: hpcs-initialization
+type: terraform
+description: Module to initialize a Hyper Protect Crypto Service instance
+tags:
+  - kms
+  - crypto
+  - hpcs
+  - initialize
+versions:
+  - platforms: []
+    dependencies:
+      - id: hpcs
+        refs:
+          - source: github.com/cloud-native-toolkit/terraform-ibm-hpcs
+            version: ">= 0.0.0"
+    variables:
+      - name: hpcs_instance_guid
+        moduleRef:
+          id: hpcs
+          output: guid
