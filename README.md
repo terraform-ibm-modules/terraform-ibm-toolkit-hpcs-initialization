@@ -267,10 +267,3 @@ CRYPTO UNIT NUM   XCP_CPB_ALG_EC_25519   XCP_CPB_BTC   XCP_CPB_ECDSA_OTHER
 * HPCS initialization can be validated from console as well as:
 ![here](./initialization-from-console.png)
 
-## Notes for developers
-
-* Clone the repository:
-
-```bash
-  git clone git@github.com:slzone/terraform-ibm-hpcs-initialization.git
-```
