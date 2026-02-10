@@ -1,5 +1,7 @@
 # Terraform module for auto initialization of a HPCS instance
 
+:warning: This module is no longer maintained. Please use [terraform-ibm-hpcs](https://github.com/terraform-ibm-modules/terraform-ibm-hpcs) for configuring IBM Cloud Hyper Protect Crypto Services.
+
 This module initializes a zeroized HPCS instance.
 
 ## Terraform versions
